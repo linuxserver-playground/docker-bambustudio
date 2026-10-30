@@ -37,8 +37,11 @@ RUN \
     libwebkit2gtk-4.1-0 \
     libwx-perl && \
   echo "**** install bambu studio from appimage ****" && \
-  RELEASE_URL=$(curl -sX GET "https://api.github.com/repos/bambulab/BambuStudio/releases" \
-    | jq -r '.[0].url') && \
+  if [ -z ${BAMBUSTUDIO_VERSION+x} ]; then \
+    BAMBUSTUDIO_VERSION=$(curl -sX GET "https://api.github.com/repos/bambulab/BambuStudio/releases" \
+      | jq -r '.[0].tag_name'); \
+  fi && \
+  RELEASE_URL="https://api.github.com/repos/bambulab/BambuStudio/releases/tags/${BAMBUSTUDIO_VERSION}" && \
   DOWNLOAD_URL=$(curl -sX GET "${RELEASE_URL}" \
     | jq -r 'first(.assets[].browser_download_url | select(test("BambuStudio_ubu24")))') && \
   cd /tmp && \

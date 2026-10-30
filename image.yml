@@ -11,6 +11,8 @@ upstream:
     type: github_release
     repo: bambulab/BambuStudio
     prerelease: true
+    require_assets:
+      - asset: 'BambuStudio_ubu24.*\.AppImage$'
   notes:
     type: github_release
     repo: bambulab/BambuStudio
